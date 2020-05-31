@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% block title %} About | {{ block.super }}{% endblock title %}
+
+{% block content %}
+
+    <h1>About</h1>
+    <hr>
+    <form method="post" action="{% url "run_script" %}">
+        {% csrf_token %}
+        <button type="submit" name="run_script">Run script</button>
+    </form>
+{% endblock content %}
