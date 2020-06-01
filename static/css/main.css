@@ -1,0 +1,15 @@
+#modal {
+    background: white;
+    width: 100%;
+    top: 3rem;
+    box-sizing: border-box;
+    padding: 1rem;
+    border: 1px solid black;
+    height: 50vh;
+    overflow-y: scroll;
+    text-align: center;
+}
+
+#start-btn {
+    width: 100%;
+}

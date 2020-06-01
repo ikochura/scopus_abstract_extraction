@@ -13,20 +13,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 
-from core.views import home, about, run_script, choose_category
+from core.views import home, about, run_script, choose_category, run_script
 
 urlpatterns = [
-    # admin
-    path('admin/', admin.site.urls),
-    # Accounts
-    re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
-    # core
-    re_path(r'^$', home, name='home'),
-    re_path(r'^about/$', run_script, name='about'),
-    # transactions
-    re_path(r'^', include('transactions.urls', namespace='transactions')),
-    re_path(r'^category/(?P<category_id>\d+)$', choose_category, name="choose_category"),
-]
+                  # admin
+                  path('admin/', admin.site.urls),
+                  # Accounts
+                  re_path(r'^accounts/', include('accounts.urls', namespace='accounts')),
+                  # core
+                  re_path(r'^$', home, name='home'),
+                  re_path(r'^about/$', run_script, name='about'),
+                  # transactions
+                  re_path(r'^', include('transactions.urls', namespace='transactions')),
+                  re_path(r'^category/(?P<category_id>\d+)$', choose_category, name="choose_category"),
+                  re_path(r'^category/(?P<category_id>\d+)/start$', run_script, name="run_script "),
+              ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

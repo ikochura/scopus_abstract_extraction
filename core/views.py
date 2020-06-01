@@ -1,11 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Sum, Count
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.shortcuts import render
 
 from transactions.models import Category, Dataset
-import psycopg2
 
 
 def home(request):
@@ -28,19 +24,20 @@ def about(request):
     return render(request, "core/about.html", {})
 
 
+@login_required()
 def run_script(request):
-    if request.method == 'POST' and 'run_script' in request.POST:
-
-        # call function
-        # getAbstractScript()
-        # return user to required page
-        return HttpResponseRedirect(reverse("home"))
-    else:
-        return render(request, "core/home.html", {})
+    if request.GET.get('run_script'):
+        print(int(request.GET.get('modal')))
+        print('Button clicked')
+    return render(request, 'core/script_panel.html', {'text': 'Button clicked'})
 
 
 @login_required()
 def choose_category(request, category_id=None):
-    id = request.GET.get(id(), None)
-    response = "You're looking at the results of question %s."
-    return HttpResponse(response % id)
+    if not request.user.is_authenticated:
+        return render(request, "core/home.html", {})
+    else:
+        context = {
+            "category_id": category_id,
+        }
+        return render(request, "core/script_panel.html", context)
