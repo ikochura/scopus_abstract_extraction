@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include, re_path
 
-from core.views import home, get_abstract
+from core.views import home, get_abstract, get_csv
 
 urlpatterns = [
                   # admin
@@ -31,4 +31,5 @@ urlpatterns = [
                   # transactions
                   path('', include('transactions.urls', namespace='transactions')),
                   re_path(r'^category/(?P<category_id>\d+)$', get_abstract, name="get_abstract"),
+                  re_path(r'^category/get/(?P<category_id>\d+)$', get_csv, name="get_csv"),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

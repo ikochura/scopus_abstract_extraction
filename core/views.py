@@ -1,8 +1,10 @@
+import csv
 from datetime import datetime
 import logging
 import requests
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, redirect
 
 from transactions.models import Category, Dataset, Document
 
@@ -23,10 +25,6 @@ def home(request):
         }
 
         return render(request, "core/transactions.html", context)
-
-
-def about(request):
-    return render(request, "core/about.html", {})
 
 
 API_KEY = 'e947957924671f20b87c8437ae30ba05'
@@ -52,7 +50,7 @@ def get_abstract(request, category_id=None):
     if Document.objects.filter(category=category_id):
         file_obj = Document.objects.get(category=category_id).docfile
     else:
-        return render(request, "transactions/upload_doc.html")
+        return redirect('transactions:upload_doc')
     with file_obj as file:
         for line in file:
             line = str(line)[2:-3]
@@ -83,3 +81,18 @@ def get_abstract(request, category_id=None):
             "text": line,
         }
         return render(request, "core/script_panel.html", context)
+
+
+@login_required()
+def get_csv(request, category_id=None):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response)
+    writer.writerow(['Scopus ID', 'Abstract', 'Creation time'])
+
+    for line in Dataset.objects.all().filter(category_id=category_id).values_list('scopus_id', 'abstract', 'timestamp'):
+        writer.writerow(line)
+
+    response['Content-Disposition'] = 'attachment; filename="abstracts.csv"'
+
+    return response
