@@ -35,15 +35,9 @@
     <div class="page-header">
         <h2 class="text-center"><b>Transaction Details</b></h2>
     </div>
-
     <div id="modal">
-        {% for x in text %}
-            {{ x }}
-        {% endfor %}
+        {{ text }}
     </div>
-    <form method="get">
-        <input type="submit" class="btn" value="Click" name="run_script">
-    </form>
 {% endblock content %}
 </body>
 </html>

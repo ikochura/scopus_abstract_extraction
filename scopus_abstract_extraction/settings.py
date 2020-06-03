@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'transactions',
     'django_celery_beat',
     'crispy_forms',
-
 ]
 
 MIDDLEWARE = [
@@ -86,9 +85,9 @@ WSGI_APPLICATION = 'scopus_abstract_extraction.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
-        'USER': 'user_name',
-        'PASSWORD': 'password',
+        'NAME': 'scopus_db',
+        'USER': 'scopus_user',
+        'PASSWORD': 'j753mhtkw5',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

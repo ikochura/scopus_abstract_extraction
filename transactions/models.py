@@ -15,7 +15,7 @@ class Category(models.Model):
                              )
 
     def __str__(self):
-        return str(self.user)
+        return str(self.name_group_dataset)
 
 
 class Dataset(models.Model):
@@ -23,8 +23,17 @@ class Dataset(models.Model):
     abstract = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     category = models.ForeignKey(Category,
-                                 on_delete=models.CASCADE,
-                                 )
+                                 on_delete=models.CASCADE, )
 
     def __str__(self):
         return str(self.category)
+
+
+class Document(models.Model):
+    docfile = models.FileField(upload_to='documents/%Y/%m/%d')
+    name = models.CharField(max_length=100)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def delete(self, *args, **kwargs):
+        self.docfile.delete()
+        super().delete(*args, **kwargs)

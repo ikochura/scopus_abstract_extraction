@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Category, Dataset
+from .models import Category, Document
 
 
 class CategoryForm(forms.ModelForm):
@@ -16,3 +16,14 @@ class CategoryForm(forms.ModelForm):
         name_group_dataset = self.cleaned_data['name_group_dataset']
 
         return name_group_dataset
+
+
+class UploadFileForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ['docfile', 'name', 'category']
+
+    # def __init__(self, user, *args, **kwargs):
+    #     self.user = kwargs.pop('user', None)
+    #     super(UploadFileForm, self).__init__(*args, **kwargs)
+    #     self.fields['category'].queryset = Document.objects.filter(category__user=user)

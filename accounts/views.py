@@ -1,18 +1,11 @@
 from django.contrib import messages
-from django.contrib.auth import (
-    authenticate,
-    login,
-    logout,
-)
-from django.contrib.auth.decorators import login_required
-from django.http import Http404
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, redirect
 
 from .forms import (
     UserLoginForm, UserRegistrationForm,
 
 )
-from .models import User
 
 
 def register_view(request):
@@ -28,17 +21,12 @@ def register_view(request):
             password = user_form.cleaned_data.get("password1")
             user.set_password(password)
             user.save()
-            new_user = authenticate(
-                email=user.email, password=password
-            )
-            login(
-                request, new_user, backend='accounts.backends.AccountNoBackend'
-            )
-            messages.success(
-                request,
-                '''Thank You For Creating A Bank Account {}.
-                Your Account Number is {}, Please use this number to login
-                '''.format(new_user.full_name, new_user.email))
+            new_user = authenticate(email=user.email, password=password)
+            login(request, new_user, backend='accounts.backends.AccountNoBackend')
+            messages.success(request,
+                             '''Thank You For Creating an account {}.
+                             Your email is {}, Please use it to login
+                             '''.format(new_user.full_name, new_user.email))
 
             return redirect("home")
 
@@ -55,7 +43,6 @@ def login_view(request):
         return redirect("home")
     else:
         form = UserLoginForm(request.POST or None)
-
         if form.is_valid():
             email = form.cleaned_data.get("email")
             password = form.cleaned_data.get("password")

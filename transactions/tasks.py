@@ -1,7 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from celery.task import task
 from accounts.models import User
-from .models import Interest
 
 
 @task(name="count_interest")

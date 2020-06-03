@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import BaseBackend
 
 User = get_user_model()
 
 
-class AccountNoBackend():
+class AccountNoBackend(BaseBackend):
 
     def authenticate(self, request, email=None, password=None):
         try:

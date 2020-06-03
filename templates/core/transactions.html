@@ -30,7 +30,6 @@
         <h2 class="text-center"><b>Transaction Details</b></h2>
     </div>
 
-    <a class="editor_create">Create new record</a>
 
     <table class="table table-hover table-bordered">
         <thead>
@@ -38,7 +37,7 @@
             <th>#</th>
             <th>Name</th>
             <th>Date / Time</th>
-            <th>Count</th>
+            <th>Get abstracts</th>
         </tr>
         </thead>
         <tbody>
@@ -48,11 +47,11 @@
                     <th scope="row">{{ forloop.counter }}</th>
                     <td>{{ obj.name_group_dataset }}</td>
                     <td>{{ obj.timestamp }}</td>
-                    <td><a class="btn btn-danger" href="{% url 'choose_category' obj.id %}">Start</a></td>
+                    <td><a class="btn btn-danger" href="{% url 'get_abstract' obj.id%}">Start</a></td>
                     </tr>
                 {% endfor %}
             {% else %}
-                <p>No objects are available right now.</p>
+                <td><p>No objects are available right now.</p></td>
             {% endif %}
         <tr>
             <th class="text-right" scope="row" colspan="3">Total</th>
